@@ -12,13 +12,21 @@ local args = {
     [1] = "AuraTrain"
 }
 
-local arg2 = {
+local args2 = {
     [1] = "SitUp"
 }
 
 
-
+local oldNameCall;
+oldNameCall = hookmetamethod(game, "__namecall", newcclosure(function(Self, ...)
+    local Method = getnamecallmethod()
+    local Arguments = {...}
+    if Method == "Kick" then
+        return -- // 3 line bypass ftw
+    end;
+    return oldNameCall(Self, ...)
+end));
 game:GetService("RunService").RenderStepped:Connect(function(step)
-game:GetService("ReplicatedStorage").Combat:InvokeServer(unpack(args))
-game:GetService("ReplicatedStorage").Combat:InvokeServer(unpack(args2))
+    game:GetService("ReplicatedStorage").Combat:InvokeServer(unpack(args))
+    game:GetService("ReplicatedStorage").Combat:InvokeServer(unpack(args2))
 end)
